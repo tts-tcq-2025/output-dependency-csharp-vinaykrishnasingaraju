@@ -1,0 +1,32 @@
+name: Build and Run
+
+on: [push, pull_request]
+
+env:
+  DOTNET_VERSION: '6.0.401'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: build
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}      
+      - name: tshirts
+        if: always()
+        run: |
+          cd tshirts
+          dotnet run
+      - name: misaligned
+        if: always()
+        run: |
+          cd misaligned
+          dotnet run
+      - name: weather-report
+        if: always()
+        run: |
+          cd weatherreport
+          dotnet run
