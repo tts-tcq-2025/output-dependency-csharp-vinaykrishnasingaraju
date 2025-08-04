@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 
 namespace TshirtSpace {
@@ -13,10 +13,19 @@ namespace TshirtSpace {
             }
         }
         static void Main(string[] args) {
+            // Valid input tests
             Debug.Assert(Size(37) == "S");
-            Debug.Assert(Size(40) == "M");
-            Debug.Assert(Size(43) == "L");
-            Console.WriteLine( "All is well (maybe!)");
+            Debug.Assert(Size(38) == "M"); 
+            Debug.Assert(Size(40) == "M"); 
+            Debug.Assert(Size(42) == "L"); 
+            Debug.Assert(Size(43) == "L"); 
+
+            // Invalid input tests
+            Debug.Assert(Size(-1) == "S"); 
+            Debug.Assert(Size(0) == "S");  
+
+            Console.WriteLine("All is well (maybe!)");
         }
     }
 }
+
