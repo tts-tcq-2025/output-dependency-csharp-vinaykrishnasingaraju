@@ -25,7 +25,6 @@ namespace TemperatureSpace
         {
             IWeatherSensor sensor = new SensorStub();
             string report = Weather.Report(sensor);
-            Console.WriteLine(report);
             Debug.Assert(report.Contains("rain"));
         }
 
@@ -33,7 +32,7 @@ namespace TemperatureSpace
         {
             IWeatherSensor sensor = new HighPrecipitationStub();
             string report = Weather.Report(sensor);
-            Debug.Assert(report.Contains("rain")); 
+            Debug.Assert(report.Contains("rain"));
         }
 
         private static void TestLowPrecipitation()
@@ -41,14 +40,23 @@ namespace TemperatureSpace
             IWeatherSensor sensor = new LowPrecipitationStub();
             string report = Weather.Report(sensor);
             Debug.Assert(report.Contains("Sunny"));
+        }
+
+        private static void TestHighWindLowPrecipitation()
+        {
+            IWeatherSensor sensor = new HighWindLowPrecipitationStub();
+            string report = Weather.Report(sensor);
+            Debug.Assert(report.Contains("windy")); // Strengthened test to expose the bug
+        }
 
         static void Main(string[] args)
         {
             TestRainy();
             TestHighPrecipitation();
             TestLowPrecipitation();
+            TestHighWindLowPrecipitation();
             Console.WriteLine("All is well (maybe!)");
         }
     }
 }
-}
+
