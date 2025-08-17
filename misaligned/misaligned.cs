@@ -36,7 +36,7 @@ namespace misalignedspace
         }
 
         // Fixed function
-        private static ColorPair[] GenerateColorMap_Fixed()
+      /*  private static ColorPair[] GenerateColorMap_Fixed()
         {
             var colorMap = new ColorPair[MajorColors.Length * MinorColors.Length];
             int count = 0;
@@ -53,7 +53,7 @@ namespace misalignedspace
             }
 
             return colorMap;
-        }
+        }*/
 
         // Shared formatter
         private static string GenerateOutputString(ColorPair[] colorMap)
@@ -84,4 +84,5 @@ namespace misalignedspace
         }
     }
 }
+
 
