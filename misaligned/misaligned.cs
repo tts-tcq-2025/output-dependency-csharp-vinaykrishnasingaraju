@@ -47,7 +47,7 @@ namespace misalignedspace
                 {
                     colorMap[count].Index = count + 1;
                     colorMap[count].Major = MajorColors[i];
-                    colorMap[count].Minor = MinorColors[j]; // ✅ FIXED
+                    colorMap[count].Minor = MinorColors[j]; // FIXED
                     count++;
                 }
             }
@@ -84,3 +84,4 @@ namespace misalignedspace
         }
     }
 }
+
