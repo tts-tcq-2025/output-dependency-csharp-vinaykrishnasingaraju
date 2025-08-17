@@ -1,68 +1,59 @@
 using System;
-using System.Diagnostics;
-using System.Linq;
+using System.Text;
 
 namespace MisalignedSpace
 {
-    class Misaligned
+    internal struct ColorPair
     {
-        private static readonly string[] majorColors = { "White", "Red", "Black", "Yellow", "Violet" };
-        private static readonly string[] minorColors = { "Blue", "Orange", "Green", "Brown", "Slate" };
+        public int Index;
+        public string Major;
+        public string Minor;
+    }
 
-        // Generates the color map as strings, consistent with the converted C++ logic
-        public static string[] GenerateColorMap()
+    public static class Misaligned
+    {
+        private static readonly string[] MajorColors = { "White", "Red", "Black", "Yellow", "Violet" };
+        private static readonly string[] MinorColors = { "Blue", "Orange", "Green", "Brown", "Slate" };
+
+        // Hidden buggy function
+        private static ColorPair[] GenerateColorMap()
         {
-            string[] colorMap = new string[majorColors.Length * minorColors.Length];
-            int index = 0;
+            var colorMap = new ColorPair[MajorColors.Length * MinorColors.Length];
+            int count = 0;
 
-            for (int i = 0; i < majorColors.Length; i++)
+            for (int i = 0; i < MajorColors.Length; i++)
             {
-                for (int j = 0; j < minorColors.Length; j++)
+                for (int j = 0; j < MinorColors.Length; j++)
                 {
-                    colorMap[index++] = $"{i * minorColors.Length + j} | {majorColors[i]} | {minorColors[j]}";
+                    colorMap[count].Index = count + 1;
+                    colorMap[count].Major = MajorColors[i];
+                    colorMap[count].Minor = MinorColors[i];
+                    count++;
                 }
             }
 
             return colorMap;
         }
 
-        // Validates the generated color map
-        public static void TestColorMap()
+        // Hidden formatter
+        private static string GenerateOutputString(ColorPair[] colorMap)
         {
-            var colorMap = GenerateColorMap();
-
-            // Check first entry
-            Debug.Assert(colorMap[0] == "0 | White | Blue", "First entry is incorrect");
-
-            // Check last entry
-            Debug.Assert(colorMap[colorMap.Length - 1] == "24 | Violet | Slate", "Last entry is incorrect");
-
-            // Check total number of entries
-            Debug.Assert(colorMap.Length == 25, "Color map does not contain 25 entries");
-
-            // Check each entry format and uniqueness
-            foreach (var entry in colorMap)
+            StringBuilder sb = new StringBuilder();
+            foreach (var pair in colorMap)
             {
-                Debug.Assert(entry.Contains("|"), "Entry does not contain '|' separator");
-
-                string[] parts = entry.Split('|');
-                Debug.Assert(parts.Length == 3, "Entry is not properly formatted with three parts");
-
-                bool isIndexValid = int.TryParse(parts[0].Trim(), out int index);
-                Debug.Assert(isIndexValid, "Index is not a valid number");
-                Debug.Assert(index >= 0 && index < 25, "Index is out of range");
+                sb.AppendLine($"{pair.Index} | {pair.Major} | {pair.Minor}");
             }
-
-            // Check for duplicates
-            Debug.Assert(colorMap.Distinct().Count() == colorMap.Length, "Duplicate entries found in the color map");
+            return sb.ToString();
         }
 
-        static void Main(string[] args)
+        // Public entry point (only visible function)
+        public static int PrintColorMap(Action<string> outputFunc)
         {
-            TestColorMap();
-            Console.WriteLine("All is well (maybe!)");
+            var colorMap = GenerateColorMap();
+            var output = GenerateOutputString(colorMap);
+
+            outputFunc(output);
+            return colorMap.Length;
         }
     }
 }
-
-
